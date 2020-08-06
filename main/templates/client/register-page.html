@@ -1,0 +1,297 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register | Virtuosity Educational Service</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+            rel="shortcut icon"
+            href="{% static 'client/images/logo.jpeg' %}"
+        />
+        <link rel="stylesheet" href="{% static 'client/css/main.css' %}" />
+        <link
+            href="{% static 'admin/css/spinner.css' %}"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="{% static 'admin/vendor/parsleyjs/parsley.css' %}"
+        />
+        <!-- Alertify css -->
+        <link
+            href="{% static 'admin/vendor/alertify/css/alertify.css'  %}"
+            rel="stylesheet"
+            type="text/css"
+        />
+    </head>
+    <body style="padding-top: 2em;">
+        <div id="loading" class="special loading">Loading&#8230;</div>
+        <!-- Main -->
+        <section id="main" class="wrapper">
+            <div class="container">
+                <section>
+                    <header class="major special">
+                        <h2>Registration Here!</h2>
+                    </header>
+                    
+                    <form id="form" method="post" action="">
+                        {% csrf_token %}
+                        <div class="row uniform 50%">
+                            <div class="12u 12u$(xsmall)">
+                                <input
+                                    required
+                                    type="text"
+                                    name="fullname"
+                                    id="fullname"
+                                    value=""
+                                    placeholder="Full name"
+                                    data-parsley-pattern="^[a-zA-Z][a-zA-Z\s]*$"
+                                    data-parsley-pattern-message="Invalid Name"
+                                />
+                            </div>
+                        </div>
+                        <div class="row uniform 50%">
+                            <div class="6u 12u$(xsmall)">
+                                <input
+                                    required
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    value=""
+                                    placeholder="Email"
+                                />
+                            </div>
+                            <div class="6u 12u$(xsmall)">
+                                <input
+                                    required
+                                    type="text"
+                                    name="number"
+                                    id="number"
+                                    value=""
+                                    placeholder="Phone number"
+                                    required
+                                    data-parsley-pattern="^[1-9]\d{9}$"
+                                    ^[1-9][0-9]{5}$
+                                    data-parsley-pattern-message="Invalid Mobile Number"
+                                />
+                            </div>
+                        </div>
+                        <div class="row uniform 50%">
+                            <div class="6u 12u$(xsmall)">
+                                <input
+                                    required
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    value=""
+                                    placeholder="Password"
+                                    data-parsley-minlength="8"
+                                    data-parsley-uppercase="1"
+                                    data-parsley-lowercase="1"
+                                    data-parsley-number="1"
+                                    data-parsley-special="1"
+                                />
+                            </div>
+                            <div class="6u 12u$(xsmall)">
+                                <input
+                                    required
+                                    type="password"
+                                    name="cnfpassword"
+                                    id="cnfpassword"
+                                    value=""
+                                    placeholder="Repeat Password"
+                                    data-parsley-equalto="#password"
+                                    data-parsley-equalto-message="Password Doesn't Match"
+                                />
+                            </div>
+                        </div>
+                        <div class="row uniform 50%">
+                            <div class="12u 12u$(xsmall)">
+                                <input
+                                    required
+                                    type="text"
+                                    name="city"
+                                    id="city"
+                                    value=""
+                                    placeholder="Enter City name"
+                                    data-parsley-pattern="^[a-zA-Z][a-zA-Z\s]*$"
+                                    data-parsley-pattern-message="Invalid city Name"
+                                />
+                            </div>
+                        </div>
+                        <div class="row uniform 50%">
+                            <div class="6u 12u$(xsmall)">
+                                <input
+                                    required
+                                    type="text"
+                                    name="district"
+                                    id="district"
+                                    value=""
+                                    placeholder="Enter District name"
+                                    data-parsley-pattern="^[a-zA-Z][a-zA-Z\s]*$"
+                                    data-parsley-pattern-message="Invalid district Name"
+                                />
+                            </div>
+                            <div class="6u 12u$(xsmall)">
+                                <input
+                                    required
+                                    type="text"
+                                    name="pincode"
+                                    id="pincode"
+                                    value=""
+                                    placeholder="Enter pincode name"
+                                    data-parsley-pattern="^[1-9][0-9]{5}$"
+                                    data-parsley-pattern-message="Invalid Pincode"
+                                />
+                            </div>
+                        </div>
+                        <div class="row uniform 50%">
+                            <div class="12u 12u$(xsmall)">
+                                <input
+                                    required
+                                    type="text"
+                                    name="qualification"
+                                    id="qualification"
+                                    value=""
+                                    placeholder="Enter current qualification name (10th , 12th, SYBA, TE BE)"
+                                    data-parsley-type="alphanum"
+                                    data-parsley-type-message="Invalid Qualification"
+                                />
+                            </div>
+                        </div>
+                        <div class="row uniform 50%">
+                            <div class="12u 12u$(xsmall)">
+                                <input
+                                    required
+                                    type="checkbox"
+                                    id="terms"
+                                    name="terms"
+                                    data-parsley-required-message="Please Accept Terms & Conditions"
+                                    data-parsley-errors-container="#checkbox-error"
+                                />
+                                <label for="terms"
+                                    >I understand and agree that the information
+                                    provided above is correct and i'm willing to
+                                    do career guidance and counselling session
+                                    for me / my child. Virtuosity Educational
+                                    Service can use this information for various
+                                    purpose and i have no objection for
+                                    that.</label
+                                >
+                            </div>
+                        </div>
+                        <div class="row uniform 50%">
+                            <div class="12u$">
+                                <ul class="actions">
+                                    <li>
+                                        <input
+                                            id="submit"
+                                            type="submit"
+                                            class="button special"
+                                            value="Register"
+                                        />
+                                    </li>
+                                    <li>
+                                        <a class="button" href="/login/"
+                                            >Log in</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <div id="checkbox-error"></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </section>
+        {% include 'client/footer.html' %}
+        <!-- Scripts -->
+        <script src="{% static 'client/js/jquery.min.js' %}"></script>
+        <script src="{% static 'admin/vendor/parsleyjs/parsley.min.js' %}"></script>
+        <script src="{% static 'admin/vendor/alertify/js/alertify.js'  %}"></script>
+        <script>
+            //has uppercase
+            window.Parsley.addValidator("uppercase", {
+                requirementType: "number",
+                validateString: function (value, requirement) {
+                    var uppercases = value.match(/[A-Z]/g) || [];
+                    return uppercases.length >= requirement;
+                },
+                messages: {
+                    en: " - Must contain at least (%s) uppercase letter.",
+                },
+            });
+            //has lowercase
+            window.Parsley.addValidator("lowercase", {
+                requirementType: "number",
+                validateString: function (value, requirement) {
+                    var lowecases = value.match(/[a-z]/g) || [];
+                    return lowecases.length >= requirement;
+                },
+                messages: {
+                    en: " - Must contain at least (%s) lowercase letter.",
+                },
+            });
+            //has number
+            window.Parsley.addValidator("number", {
+                requirementType: "number",
+                validateString: function (value, requirement) {
+                    var numbers = value.match(/[0-9]/g) || [];
+                    return numbers.length >= requirement;
+                },
+                messages: {
+                    en: " - Must contain at least (%s) number.",
+                },
+            });
+            //has special char
+            window.Parsley.addValidator("special", {
+                requirementType: "number",
+                validateString: function (value, requirement) {
+                    var specials = value.match(/[^a-zA-Z0-9]/g) || [];
+                    return specials.length >= requirement;
+                },
+                messages: {
+                    en: " - Must contain at least (%s) special character.",
+                },
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                $("#loading").hide();
+                $("#form").parsley();
+                $("#submit").click(function (e) {
+                    if ($("#form").parsley().isValid()) {
+                        e.preventDefault();
+                        data = new FormData($("#form")[0]);
+                        var url = $("#form").data("url");
+                        $.ajax({
+                            headers: { "X-CSRFToken": "{{csrf_token}}" },
+                            url: url,
+                            data: data,
+                            type: "post",
+                            processData: false,
+                            contentType: false,
+                            beforeSend: function() {
+                                $("#loading").show();
+                            },
+                            success: function (response) {
+                                location.replace("{% url 'login-page' %}");
+                            },
+                            error: function (response) {
+                                alertify.error(
+                                    response["responseJSON"]["error"]
+                                );
+                            },
+                            complete: function() {
+                                $("#loading").hide();
+                            },
+                        });
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

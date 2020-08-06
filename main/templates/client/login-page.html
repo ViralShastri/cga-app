@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login | Virtuosity Educational Service</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="shortcut icon" href="{% static 'client/images/logo.jpeg' %}">
+        <link rel="stylesheet" href="{% static 'client/css/main.css' %}" />
+        <link
+            href="{% static 'admin/css/spinner.css' %}"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="{% static 'admin/vendor/parsleyjs/parsley.css' %}"
+        />
+        <!-- Alertify css -->
+        <link
+            href="{% static 'admin/vendor/alertify/css/alertify.css'  %}"
+            rel="stylesheet"
+            type="text/css"
+        />
+    </head>
+    <body>
+        <div id="loading" class="special loading">Loading&#8230;</div>
+        <!-- Main -->
+        <section id="main" class="wrapper">
+            <div class="container">
+                <section>
+                    <header class="major special">
+                    <h2>Login Here!</h2>
+                </header>
+                    <form id="form" method="post" action="#">
+                        {% csrf_token %}
+                        <div class="row uniform 50%">
+                            <div class="6u 12u$(xsmall)">
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    value=""
+                                    placeholder="Email"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div class="row uniform 50%">
+                            <div class="6u 12u$(xsmall)">
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    value=""
+                                    placeholder="Password"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div class="row uniform 50%">
+                            
+                        </div>
+                        
+                        <div class="row uniform 50%">
+                            <div class="6u 12u$(xsmall)">
+                                <ul class="actions">
+                                    <li>
+                                        <input
+                                            type="submit"
+                                            class="button special"
+                                            value="Login"
+                                            id="submit"
+                                        />
+                                    </li>
+                                    <li>
+                                        <a class="button" href="/register/"
+                                            >Register</a
+                                        >
+                                    </li>
+                                        <a href="{% url 'reset_password' %}" style="float: right;">Forgot password?</a>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+                <!-- Image -->
+            </div>
+        </section>
+        {% include 'client/footer.html' %}
+        {% if messages %}
+        {% for message in messages %}
+        <div id="msg" data-msg="{{ message }}"></div>
+        {% endfor %}
+        {% endif %}
+        <!-- Scripts -->
+        <script src="{% static 'client/js/jquery.min.js' %}"></script>
+        <script src="{% static 'admin/vendor/parsleyjs/parsley.min.js' %}"></script>
+        <script src="{% static 'admin/vendor/alertify/js/alertify.js'  %}"></script>
+        <script>
+            $(document).ready(function () {
+                $("#loading").hide();
+                var msg = $("#msg").data("msg");
+                if (msg) {
+                    alertify.error(msg);
+                }
+                $("#form").parsley();
+                $("#submit").click(function (e) {
+                    if ($("#form").parsley().isValid()) {
+                        e.preventDefault();
+                        var email = $("#email").val().toLowerCase();
+                        var password = $("#password").val();
+                        var csrfmiddlewaretoken = $(
+                            "[name='csrfmiddlewaretoken']"
+                        )
+                            .first()
+                            .val();
+                        $.ajax({
+                            url: "",
+                            data: {
+                                email: email,
+                                password: password,
+                                csrfmiddlewaretoken: csrfmiddlewaretoken,
+                            },
+                            type: "post",
+                            beforeSend: function() {
+                                $("#loading").show();
+                            },
+                            success: function (response) {
+                                response.admin ? location.replace("/admin") : location.replace("{% url 'home' %}");
+                            },
+                            error: function (response) {
+                                alertify.error(
+                                    response["responseJSON"]["error"]
+                                );
+                            },
+                            complete: function() {
+                                $("#loading").hide();
+                            },
+                        });
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

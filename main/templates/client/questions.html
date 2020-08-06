@@ -1,0 +1,266 @@
+{% load static %}
+<!DOCTYPE html>
+<!--
+	Spatial by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+	-->
+<html>
+    <head>
+        <title>Questions | Virtuosity Educational Service</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+            rel="shortcut icon"
+            href="{% static 'client/images/logo.jpeg' %}"
+        />
+        <link
+            href="{% static 'admin/css/spinner.css' %}"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="{% static 'client/css/main.css' %}" />
+        <link rel="stylesheet" href="{% static 'client/css/dropdown.css' %}" />
+        <link
+            rel="stylesheet"
+            href="{% static 'admin/vendor/parsleyjs/parsley.css' %}"
+        />
+        <!-- Alertify css -->
+        <link
+            href="{% static 'admin/vendor/alertify/css/alertify.css'  %}"
+            rel="stylesheet"
+            type="text/css"
+        />
+    </head>
+    <body>
+        <!-- Header -->
+        {% include 'client/header.html' %}
+        <!-- Main -->
+        <section id="main" class="wrapper">
+            <div class="container">
+                <header class="major special" style="margin-bottom: 4em;">
+                    <h2>Questions</h2>
+                    <p style="text-transform: none;">
+                        Select one option in the following question
+                    </p>
+                </header>
+                <section>
+                    <form id="form" method="post" action="">
+                        {% csrf_token %} 
+                        {% for que in question_data %}
+                        <div class="page">
+                            <h3>
+                                <span>Q.{{ forloop.counter }}</span>
+                                {{ que.QuestionTitle }}
+                                <div
+                                    id="checkbox-error{{ forloop.counter }}"
+                                ></div>
+                            </h3>
+                            <div class="custom-control">
+                                <div
+                                    class="radiobtn"
+                                    style="margin-top: -10px;"
+                                >
+                                    <input
+                                        data-cat="{{que.CategoryId_id}}"
+                                        required
+                                        type="radio"
+                                        id="question{{ forloop.counter }}1"
+                                        name="question{{ forloop.counter }}"
+                                        value="1"
+                                        data-parsley-required-message="* This Question is Compulsory"
+                                        data-parsley-errors-container="#checkbox-error{{ forloop.counter }}"
+                                    />
+                                    <label for="question{{ forloop.counter }}1"
+                                        >Strongly disagree</label
+                                    >
+                                </div>
+                                <div class="radiobtn">
+                                    <input
+                                        data-cat="{{que.CategoryId_id}}"
+                                        type="radio"
+                                        id="question{{ forloop.counter }}2"
+                                        name="question{{ forloop.counter }}"
+                                        value="2"
+                                    />
+                                    <label for="question{{ forloop.counter }}2"
+                                        >Disgree</label
+                                    >
+                                </div>
+                                <div class="radiobtn">
+                                    <input
+                                        data-cat="{{que.CategoryId_id}}"
+                                        type="radio"
+                                        id="question{{ forloop.counter }}3"
+                                        name="question{{ forloop.counter }}"
+                                        value="3"
+                                    />
+                                    <label for="question{{ forloop.counter }}3"
+                                        >Neutral</label
+                                    >
+                                </div>
+                                <div class="radiobtn">
+                                    <input
+                                        data-cat="{{que.CategoryId_id}}"
+                                        type="radio"
+                                        id="question{{ forloop.counter }}4"
+                                        name="question{{ forloop.counter }}"
+                                        value="4"
+                                    />
+                                    <label for="question{{ forloop.counter }}4"
+                                        >Agree</label
+                                    >
+                                </div>
+                                <div
+                                    class="radiobtn"
+                                    style="margin-bottom: 30px;"
+                                >
+                                    <input
+                                        data-cat="{{que.CategoryId_id}}"
+                                        type="radio"
+                                        id="question{{ forloop.counter }}5"
+                                        name="question{{ forloop.counter }}"
+                                        value="5"
+                                    />
+                                    <label for="question{{ forloop.counter }}5"
+                                        >Strongly agree</label
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="row uniform 50%">
+                            <div class="6u 12u$(xsmall)">
+                                <ul class="actions">
+                                    <li style="display:none;" id="prev">
+                                        <button                                         
+                                            type="button"
+                                            class="button"                            
+                                        >Prev</button>
+                                    </li>
+                                    <li id="next">
+                                        <button
+                                            type="button"
+                                            class="button special"
+                                        >Next</button>
+                                    </li>
+                                    <li style="display:none;" id="submit-btn">
+                                        <button   
+                                            type="submit"
+                                            class="button submit"
+                                            id="submit"
+                                        >Submit</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+                <div id="pagination-container"></div>
+            </div>
+        </section>
+        <!-- Footer -->
+        {% include 'client/footer.html' %}
+        <div id="loading" class="special loading">Loading&#8230;</div>
+        <!-- Scripts -->
+        <script src="{% static 'client/js/jquery.min.js' %}"></script>
+        <script src="{% static 'admin/vendor/parsleyjs/parsley.min.js' %}"></script>
+        <script src="{% static 'admin/vendor/jquery.simplePagination/jquery.simplePagination.js' %}"></script>
+        <script src="{% static 'admin/vendor/alertify/js/alertify.js'  %}"></script>
+        <script>
+            $(document).ready(function () {
+                $("#loading").hide();
+                $("#form").parsley();
+                var items = $(".page");
+                var numItems = items.length;
+                var perPage = 7;
+                items.slice(perPage).hide();
+                $("#pagination-container").pagination({
+                    items: numItems,
+                    itemsOnPage: perPage,
+                    prevText: "&laquo;",
+                    nextText: "&raquo;",
+                    onPageClick: function (pageNumber) {
+                        $("#prev").hide();
+                        $("#submit-btn").hide();
+                        $("#next").show();
+                        var showFrom = perPage * (pageNumber - 1);
+                        var showTo = showFrom + perPage;
+                        var currPage = $("#pagination-container").pagination('getCurrentPage');
+                        var totalPages = $("#pagination-container").pagination('getPagesCount');
+                        items.hide().slice(showFrom, showTo).show();
+                        if(currPage != 1){
+                            $("#prev").show();
+                        }
+                        if(currPage == totalPages){
+                            $("#next").hide();
+                            $("#submit-btn").show();
+                        }                
+                    },
+                });
+                $("#next").click(function (e) {
+                    $("#pagination-container").pagination('nextPage');
+                    window.scrollTo(0,0)
+                });
+                $("#prev").click(function (e) {
+                    $("#pagination-container").pagination('prevPage');
+                    window.scrollTo(0,0)
+                });
+                $("#submit").click(function (e) {
+                    if ($("#form").parsley().isValid()) {
+                        e.preventDefault();
+                        var totalCat = calculateResult();
+                        var catList = calculateResultString(totalCat);
+                        var allCat = Object.keys(totalCat);
+                        var allScore = Object.values(totalCat);
+                        $.ajax({
+                            headers: { "X-CSRFToken": "{{csrf_token}}" },
+                            url: "",
+                            data: {
+                                catList: catList,
+                                allCat: allCat.join(),
+                                allScore:allScore.join(),
+                            },
+                            type: "post",
+                            beforeSend: function() {
+                                $("#loading").show();
+                            },
+                            success: function (response) {
+                                location.replace("{% url 'result-page' %}");
+                            },
+                            error: function (response) {
+                                alertify.error(
+                                    response["responseJSON"]["error"]
+                                );
+                            },
+                            complete: function() {
+                                $("#loading").hide();
+                            },
+                        });
+                    }
+                });
+                function calculateResult() {
+                    var radios = $("input[type='radio']:checked");
+                    var data = {};
+                    for (var i = 0; i < radios.length; i++) {
+                        if (radios[i].dataset.cat in data) {
+                            data[radios[i].dataset.cat] += parseInt(
+                                radios[i].value
+                            );
+                        } else {
+                            data[radios[i].dataset.cat] = parseInt(
+                                radios[i].value
+                            );
+                        }
+                    }
+                    return data;
+                }
+                function calculateResultString(data){
+                    var sortedData = Object.keys(data).sort(function (a, b) {
+                        return data[b] - data[a];
+                    });
+                    return sortedData.slice(0, 3).join();
+                }
+            });
+        </script>
+    </body>
+</html>

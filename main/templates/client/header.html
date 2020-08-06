@@ -1,0 +1,36 @@
+{% load static %}
+<header id="header">
+    <h1>
+        <a href="/"
+            ><img
+                style="margin-top: 5px;"
+                width="75"
+                height="75"
+                src="{% static 'client/images/logo.jpeg' %}"
+                alt="VES"
+        /></a>
+    </h1>
+    <nav id="nav">
+        <ul>
+            {% if request.user.is_authenticated %}
+            <li id="dropdown" class="dropdown">
+                {{ request.user.first_name }} {{ request.user.last_name }}
+                <div class="dropdown-content">
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
+            </li>
+            <li>
+                &nbsp;
+            </li>
+
+            {% else %}
+            <li>
+                <a href="/login/">Login</a>
+            </li>
+            <li>
+                &nbsp;
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>

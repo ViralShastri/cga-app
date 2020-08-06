@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Category Table | Virtuosity Education Service</title>
+        <link
+            rel="shortcut icon"
+            href="{% static 'client/images/logo.jpeg' %}"
+        />
+        <!-- Custom fonts for this template -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+        <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet"
+        />
+        <!-- Custom styles for this template -->
+        <link
+            href="{% static 'admin/css/sb-admin-2.min.css' %}"
+            rel="stylesheet"
+        />
+        <link
+            href="{% static 'admin/css/spinner.css' %}"
+            rel="stylesheet"
+        />
+        <link
+            href="{% static 'admin/vendor/datatables/dataTables.bootstrap4.min.css' %}"
+            rel="stylesheet"
+        />
+        <link
+            href="{% static 'admin/vendor/datatables/buttons.dataTables.min.css' %}"
+            rel="stylesheet"
+        />
+        <!-- Sweet Alert -->
+        <link
+            href="{% static 'admin/vendor/sweet-alert2/sweetalert2.min.css' %}"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <!-- Alertify css -->
+        <link
+            href="{% static 'admin/vendor/alertify/css/alertify.css'  %}"
+            rel="stylesheet"
+            type="text/css"
+        />
+    </head>
+    <body id="page-top">
+        <div id="loading" class="loading">Loading&#8230;</div>
+        <div id="wrapper">
+            {% include 'admin/header.html' %}
+            <div class="container-fluid mt-4">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            Category Table
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table
+                                class="table table-bordered"
+                                id="dataTable"
+                                width="100%"
+                                cellspacing="0"
+                            >
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Category name</th>
+                                        <th>Description</th>
+                                        <th class="noExport" >Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for cat in category_data %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{cat.CategoryName}}</td>
+                                        <td>{{cat.CategoryDescription}}</td>
+                                        <td>
+                                            <a
+                                                class="btn btn-primary"
+                                                href="{% url 'cat-updt' id=cat.CategoryId %}"
+                                            >
+                                                Update
+                                            </a>
+                                            <a
+                                                class="btn btn-secondary"
+                                                href="{% url 'cat-del' %}"
+                                                name="delete"
+                                                data-id="{{ cat.CategoryId }}"
+                                            >
+                                                Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+        <!-- Bootstrap core JavaScript-->
+        <script src="{% static 'admin/vendor/jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'admin/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="{% static 'admin/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="{% static 'admin/js/sb-admin-2.min.js' %}"></script>
+        <!-- Page level plugins -->
+        <script src="{% static 'admin/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'admin/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'admin/vendor/datatables/dataTables.buttons.min.js' %}"></script>
+        <script src="{% static 'admin/vendor/datatables/jszip.min.js' %}"></script>
+        <script src="{% static 'admin/vendor/datatables/pdfmake.min.js' %}"></script>
+        <script src="{% static 'admin/vendor/datatables/vfs_fonts.js' %}"></script>
+        <script src="{% static 'admin/vendor/datatables/buttons.html5.min.js' %}"></script>
+        <script src="{% static 'admin/vendor/datatables/datatable.init.js'  %}"></script>
+        <!-- Page level custom scripts -->
+        <script src="{% static 'admin/vendor/sweet-alert2/sweetalert2.min.js' %}"></script>
+        <script src="{% static 'admin/vendor/alertify/js/alertify.js'  %}"></script>
+        <script>
+            $(document).ready(function () {
+                $("#loading").hide();
+                var alert = localStorage.getItem("delete");
+                if (alert) {
+                    alertify.success(alert + " has been deleted!");
+                    localStorage.clear();
+                }
+                $("a[name=delete]").click(function (e) {
+                    e.preventDefault();
+                    var url = $(this).attr("href");
+                    var category_id = $(this).data("id");
+                    swal({
+                        title: "Are you sure?",
+                        text: "You won't be able to revert this!",
+                        type: "warning",
+                        showCancelButton: !0,
+                        confirmButtonClass: "btn btn-success",
+                        cancelButtonClass: "btn btn-danger m-l-10",
+                        confirmButtonText: "Yes, delete it!",
+                    }).then(function () {
+                        $.ajax({
+                            headers: { "X-CSRFToken": "{{csrf_token}}" },
+                            url: url,
+                            data: {
+                                category_id: category_id,
+                            },
+                            type: "post",
+                            beforeSend: function() {
+                                $("#loading").show();
+                            },
+                            success: function (data) {
+                                localStorage.setItem("delete", "Category");
+                                location.reload();
+                            },
+                            error: function (response) {
+                                swal(
+                                    "Server Error",
+                                    response["responseJSON"]["error"],
+                                    "error"
+                                );
+                            },
+                            complete: function() {
+                                $("#loading").hide();
+                            },
+                        });
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

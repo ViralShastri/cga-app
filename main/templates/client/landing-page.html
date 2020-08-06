@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Virtuosity Educational Service</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="{% static 'admin/css/spinner.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="{% static 'client/css/main.css' %}" />
+        <link rel="stylesheet" href="{% static 'client/css/dropdown.css' %}" />
+        <link
+            rel="shortcut icon"
+            href="{% static 'client/images/logo.jpeg' %}"
+        />
+        <style>
+            ol {
+                margin: 10px;
+            }
+            ol > li {
+                text-transform: uppercase;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="loading" class="special loading">Loading&#8230;</div>
+        <!-- Header -->
+        {% include 'client/header.html' %}
+        <!-- Main -->
+        <section id="one" class="wrapper style1">
+            <div class="container">
+                <header class="major special">
+                    <h2>Career Guidance Assessment Test</h2>
+                    <ol style="font-size: 17px; list-style-type: square;">
+                        <li>Test Has No Time Limit.</li>
+                        <li>
+                            There are Total {{ questions }} Questions. All The
+                            Questions Are Mandatory.
+                        </li>
+                        <li>
+                            Select Appropriate Option For Each Question.
+                            <ol>
+                                <li>STRONGLY DISAGREE</li>
+                                <li>DISAGREE</li>
+                                <li>NEUTRAL</li>
+                                <li>AGREE</li>
+                                <li>STRONGLY AGREE</li>
+                                - There is No Right or Wrong Answer
+                            </ol>
+                        </li>
+                    </ol>
+                    <a href="/questions/" class="button special">Start test</a>
+                </header>
+            </div>
+        </section>
+        <!-- Footer -->
+        {% include 'client/footer.html' %}
+        <!-- Scripts -->
+        <script src="{% static 'client/js/jquery.min.js' %}"></script>
+        <script>
+            $(document).ready(function () {
+                $("#loading").hide();
+                $(".arrow").on("click", function () {
+                    $(this).toggleClass("active");
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,182 @@
+{% load static %}
+<ul
+    class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+    id="accordionSidebar"
+>
+    <a
+        class="sidebar-brand d-flex align-items-center justify-content-center"
+        href="/admin"
+    >
+        <div class="sidebar-brand-icon">
+            <img
+                style="border-radius:5px; box-shadow: 0px 5px 10px #ccc;"
+                width="60"
+                height="60"
+                src="{% static 'client/images/logo.jpeg' %}"
+                alt="VES"
+        />
+        </div>
+    </a>
+    <hr class="sidebar-divider my-0" />
+    <li class="nav-item">
+        <a class="nav-link" href="/admin">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a
+        >
+    </li>
+    <hr class="sidebar-divider" />
+    <div class="sidebar-heading">
+        Question
+    </div>
+    <li class="nav-item">
+        <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseTwo"
+            aria-expanded="true"
+            aria-controls="collapseTwo"
+        >
+            <i class="fa fa-list-alt"></i>
+            <span>Category</span>
+        </a>
+        <div
+            id="collapseTwo"
+            class="collapse"
+            aria-labelledby="headingTwo"
+            data-parent="#accordionSidebar"
+        >
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{% url 'cat-add' %}"
+                    >Add Category</a
+                >
+                <a class="collapse-item" href="{% url 'cat-table' %}"
+                    >View Category</a
+                >
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseUtilities"
+            aria-expanded="true"
+            aria-controls="collapseUtilities"
+        >
+            <i class="fa fa-question-circle"></i>
+            <span>Question</span>
+        </a>
+        <div
+            id="collapseUtilities"
+            class="collapse"
+            aria-labelledby="headingUtilities"
+            data-parent="#accordionSidebar"
+        >
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{% url 'que-add' %}"
+                    >Add Question</a
+                >
+                <a class="collapse-item" href="{% url 'que-table' %}"
+                    >View Question</a
+                >
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseThree"
+            aria-expanded="true"
+            aria-controls="collapseThree"
+        >
+            <i class="fa fa-graduation-cap"></i>
+            <span>Jobs</span>
+        </a>
+        <div
+            id="collapseThree"
+            class="collapse"
+            aria-labelledby="headingUtilities"
+            data-parent="#accordionSidebar"
+        >
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{% url 'job-add' %}">Add Jobs</a>
+                <a class="collapse-item" href="{% url 'job-table' %}"
+                    >View Jobs</a
+                >
+            </div>
+        </div>
+    </li>
+    <hr class="sidebar-divider" />
+    <div class="sidebar-heading">
+        Student
+    </div>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'student-table' %}">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span>Student</span></a
+        >
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'student-result' %}">
+            <i class="fa fa-trophy"></i>
+            <span>Result</span></a
+        >
+    </li>
+    <hr class="sidebar-divider d-none d-md-block" />
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+</ul>
+<div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+        <nav
+            class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
+        >
+            <button
+                id="sidebarToggleTop"
+                class="btn btn-link d-md-none rounded-circle mr-3"
+            >
+                <i class="fa fa-bars"></i>
+            </button>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        id="userDropdown"
+                        role="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    >
+                        <span
+                            class="mr-2 d-none d-lg-inline text-gray-600"
+                            >{{ request.user }}</span
+                        >
+                        <img
+                            class="img-profile rounded-circle"
+                            src="{% static 'client/images/logo.jpeg' %}"
+                        />
+                    </a>
+                    <!-- Dropdown - User Information -->
+                    <div
+                        class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                        aria-labelledby="userDropdown"
+                    >
+                        <a
+                            class="dropdown-item"
+                            href="{% url 'logout' %}"
+                        >
+                            <i
+                                class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"
+                            ></i>
+                            Logout
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>

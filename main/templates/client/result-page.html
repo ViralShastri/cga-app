@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Result | Virtuosity Educational Service</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+            rel="shortcut icon"
+            href="{% static 'client/images/logo.jpeg' %}"
+        />
+        <link
+            href="{% static 'admin/css/spinner.css' %}"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="{% static 'client/css/main.css' %}" />
+        <link rel="stylesheet" href="{% static 'client/css/dropdown.css' %}" />
+        <style>
+            ul > li {
+                text-transform: uppercase;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="loading" class="special loading">Loading&#8230;</div>
+        <!-- Header -->
+        {% include 'client/header.html' %}
+        <!-- Main -->
+        <section id="main" class="wrapper">
+            <div class="container">
+                <header class="major special">
+                    <h2>Result</h2>
+                    <ul style="font-size: 17px; list-style-type: square;">
+                        <li>
+                            You can View Your Result Report by clicking on View
+                            Report
+                        </li>
+                        <li>In case of any queries contact administration</li>
+                    </ul>
+                    <div class="row uniform 50%">
+                        <div class="6u 12u$(xsmall)">
+                            <ul class="actions">
+                                <li>
+                                    <a
+                                        class="button special"
+                                        href="{% url 'report_view' %}"
+                                        >View Report</a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </header>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        {% include 'client/footer.html' %}
+
+        <!-- Scripts -->
+        <script src="{% static 'client/js/jquery.min.js' %}"></script>
+        <script>
+            $(document).ready(function () {
+                $("#loading").hide();
+                $('.arrow').on('click', function() {
+                    $(this).toggleClass('active');
+                });
+            });
+        </script>
+    </body>
+</html>
